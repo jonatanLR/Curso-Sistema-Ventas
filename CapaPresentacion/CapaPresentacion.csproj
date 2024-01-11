@@ -142,23 +142,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmCategoria.cs" />
+    <Compile Include="frmCategoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmCategoria.Designer.cs">
       <DependentUpon>frmCategoria.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmClientes.cs" />
+    <Compile Include="frmClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmClientes.Designer.cs">
       <DependentUpon>frmClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmCompras.cs" />
+    <Compile Include="frmCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmCompras.Designer.cs">
       <DependentUpon>frmCompras.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmDetalleCompras.cs" />
+    <Compile Include="frmDetalleCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmDetalleCompras.Designer.cs">
       <DependentUpon>frmDetalleCompras.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmDetalleVentas.cs" />
+    <Compile Include="frmDetalleVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmDetalleVentas.Designer.cs">
       <DependentUpon>frmDetalleVentas.cs</DependentUpon>
     </Compile>
@@ -168,11 +178,15 @@
     <Compile Include="frmProducto.Designer.cs">
       <DependentUpon>frmProducto.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmProveedores.cs" />
+    <Compile Include="frmProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmProveedores.Designer.cs">
       <DependentUpon>frmProveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmReportes.cs" />
+    <Compile Include="frmReportes.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmReportes.Designer.cs">
       <DependentUpon>frmReportes.cs</DependentUpon>
     </Compile>
@@ -182,7 +196,9 @@
     <Compile Include="frmUsuarios.Designer.cs">
       <DependentUpon>frmUsuarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmVentas.cs" />
+    <Compile Include="frmVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmVentas.Designer.cs">
       <DependentUpon>frmVentas.cs</DependentUpon>
     </Compile>
