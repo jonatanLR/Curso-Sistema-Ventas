@@ -317,11 +317,16 @@ namespace CapaPresentacion
             }
         }
 
+<<<<<<< HEAD
 
         // funcion de boton para generar archivo excel y guadar los datos del DataGridView
         private void btnExportar_Click(object sender, EventArgs e)
         {
             // se valida que existe mas de 1 fila en con datos en el DGV
+=======
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+>>>>>>> develop
             if (dgvProducto.Rows.Count < 1)
             {
                 MessageBox.Show("No hay datos para exportar", "Mensaje",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);

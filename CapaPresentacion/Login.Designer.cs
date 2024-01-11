@@ -90,6 +90,7 @@
             this.txtNoDocumento.Name = "txtNoDocumento";
             this.txtNoDocumento.Size = new System.Drawing.Size(253, 26);
             this.txtNoDocumento.TabIndex = 4;
+            this.txtNoDocumento.Text = "111111111";
             // 
             // txtContrasena
             // 
@@ -98,6 +99,7 @@
             this.txtContrasena.PasswordChar = '*';
             this.txtContrasena.Size = new System.Drawing.Size(253, 26);
             this.txtContrasena.TabIndex = 6;
+            this.txtContrasena.Text = "54321";
             // 
             // label2
             // 
