@@ -1,28 +1,27 @@
-﻿
-using CapaEntidad;
-using System;
+﻿using CapaEntidad;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Text;
+using System;
 
 namespace CapaDatos
 {
-    public class CD_Usuario
+    public class CD_Cliente
     {
-        public List<Usuario> Listar()
+        public List<Cliente> Listar()
         {
-            List<Usuario> listaUsuarios = new List<Usuario>();
+            List<Cliente> listaClientes = new List<Cliente>();
 
             using (SqlConnection conn = new SqlConnection(Conexion.cadena))
             {
                 try
                 {
-                    //string query = "select u.id, u.documento, u.nombre_completo, u.correo, u.clave, u.estado, r.id as rolId, r.descripcion as rolDescripcion from usuario u inner join rol r on r.id = u.rol_id;";
+                    //string query = "select u.id, u.documento, u.nombre_completo, u.correo, u.clave, u.estado, r.id as rolId, r.descripcion as rolDescripcion from Cliente u inner join rol r on r.id = u.rol_id;";
                     StringBuilder sbquery = new StringBuilder();
                     sbquery.AppendLine("select u.id, u.documento, u.nombre_completo, u.correo, u.clave, u.estado,");
                     sbquery.AppendLine("r.id as rolId, r.descripcion as rolDescripcion");
-                    sbquery.AppendLine("from usuario u inner join rol r on r.id = u.rol_id;");
+                    sbquery.AppendLine("from Cliente u inner join rol r on r.id = u.rol_id;");
 
                     SqlCommand scmd = new SqlCommand(sbquery.ToString(), conn);
 
@@ -34,7 +33,7 @@ namespace CapaDatos
                     {
                         while (dr.Read())
                         {
-                            listaUsuarios.Add(new Usuario()
+                            listaClientes.Add(new Cliente()
                             {
                                 Id = Convert.ToInt32(dr["ID"]),
                                 documento = dr["documento"].ToString(),
@@ -50,52 +49,52 @@ namespace CapaDatos
                 catch (Exception ex)
                 {
                     //Console.WriteLine(ex.Message);
-                    listaUsuarios = new List<Usuario>();
+                    listaClientes = new List<Cliente>();
                 }
 
-                return listaUsuarios;
+                return listaClientes;
             }
         }
 
 
-        public int Registrar(Usuario objUser, out string Mensaje)
+        public int Registrar(Cliente objCliente, out string Mensaje)
         {
-            int idUsuarioGenerado = 0;
+            int idClienteGenerado = 0;
             Mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(Conexion.cadena))
                 {
-                    SqlCommand sqlCmd = new SqlCommand("P_REGISTRARUSUARIO", conn);
-                    sqlCmd.Parameters.AddWithValue("documento", objUser.documento);
-                    sqlCmd.Parameters.AddWithValue("nombreCompleto", objUser.nombreCompleto);
-                    sqlCmd.Parameters.AddWithValue("correo", objUser.correo);
-                    sqlCmd.Parameters.AddWithValue("clave", objUser.clave);
-                    sqlCmd.Parameters.AddWithValue("rolId", objUser.oRol.id);
-                    sqlCmd.Parameters.AddWithValue("estado", objUser.estado);
-                    sqlCmd.Parameters.Add("idUsuarioResultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    sqlCmd.Parameters.Add("mensaje", SqlDbType.VarChar,500).Direction = ParameterDirection.Output;
+                    SqlCommand sqlCmd = new SqlCommand("P_REGISTRARCliente", conn);
+                    sqlCmd.Parameters.AddWithValue("documento", objCliente.documento);
+                    sqlCmd.Parameters.AddWithValue("nombreCompleto", objCliente.nombreCompleto);
+                    sqlCmd.Parameters.AddWithValue("correo", objCliente.correo);
+                    sqlCmd.Parameters.AddWithValue("clave", objCliente.clave);
+                    sqlCmd.Parameters.AddWithValue("rolId", objCliente.oRol.id);
+                    sqlCmd.Parameters.AddWithValue("estado", objCliente.estado);
+                    sqlCmd.Parameters.Add("idClienteResultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    sqlCmd.Parameters.Add("mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     sqlCmd.CommandType = CommandType.StoredProcedure;
 
                     conn.Open();
                     sqlCmd.ExecuteNonQuery();
 
-                    idUsuarioGenerado = Convert.ToInt32(sqlCmd.Parameters["idUsuarioResultado"].Value);
+                    idClienteGenerado = Convert.ToInt32(sqlCmd.Parameters["idClienteResultado"].Value);
                     Mensaje = sqlCmd.Parameters["mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                idUsuarioGenerado = 0;
+                idClienteGenerado = 0;
                 Mensaje = ex.Message;
             }
 
-            return idUsuarioGenerado;
+            return idClienteGenerado;
         }
 
 
-        public bool Editar(Usuario objUser, out string Mensaje)
+        public bool Editar(Cliente objCliente, out string Mensaje)
         {
             bool respuesta = false;
             Mensaje = string.Empty;
@@ -104,14 +103,14 @@ namespace CapaDatos
             {
                 using (SqlConnection conn = new SqlConnection(Conexion.cadena))
                 {
-                    SqlCommand sqlCmd = new SqlCommand("P_EDITARUSUARIO", conn);
-                    sqlCmd.Parameters.AddWithValue("id", objUser.Id);
-                    sqlCmd.Parameters.AddWithValue("documento", objUser.documento);
-                    sqlCmd.Parameters.AddWithValue("nombreCompleto", objUser.nombreCompleto);
-                    sqlCmd.Parameters.AddWithValue("correo", objUser.correo);
-                    sqlCmd.Parameters.AddWithValue("clave", objUser.clave);
-                    sqlCmd.Parameters.AddWithValue("rolId", objUser.oRol.id);
-                    sqlCmd.Parameters.AddWithValue("estado", objUser.estado);
+                    SqlCommand sqlCmd = new SqlCommand("P_EDITARCliente", conn);
+                    sqlCmd.Parameters.AddWithValue("id", objCliente.Id);
+                    sqlCmd.Parameters.AddWithValue("documento", objCliente.documento);
+                    sqlCmd.Parameters.AddWithValue("nombreCompleto", objCliente.nombreCompleto);
+                    sqlCmd.Parameters.AddWithValue("correo", objCliente.correo);
+                    sqlCmd.Parameters.AddWithValue("clave", objCliente.clave);
+                    sqlCmd.Parameters.AddWithValue("rolId", objCliente.oRol.id);
+                    sqlCmd.Parameters.AddWithValue("estado", objCliente.estado);
                     sqlCmd.Parameters.Add("Respuesta", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlCmd.Parameters.Add("mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     sqlCmd.CommandType = CommandType.StoredProcedure;
@@ -133,7 +132,7 @@ namespace CapaDatos
         }
 
 
-        public bool Eliminar(Usuario objUser, out string Mensaje)
+        public bool Eliminar(Cliente objCliente, out string Mensaje)
         {
             bool respuesta = false;
             Mensaje = string.Empty;
@@ -144,8 +143,8 @@ namespace CapaDatos
                 {
 
 
-                SqlCommand sqlCmd = new SqlCommand("P_ELIMINAR_USUARIO", conn);
-                    sqlCmd.Parameters.AddWithValue("Id", objUser.Id);
+                    SqlCommand sqlCmd = new SqlCommand("P_ELIMINAR_Cliente", conn);
+                    sqlCmd.Parameters.AddWithValue("Id", objCliente.Id);
 
                     sqlCmd.Parameters.Add("Respuesta", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlCmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
@@ -167,5 +166,4 @@ namespace CapaDatos
             return respuesta;
         }
     }
-
 }
