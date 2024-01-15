@@ -1,25 +1,26 @@
 ﻿using CapaEntidad;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using System.Linq;
 using System.Text;
-using System;
+using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-    public class CD_Cliente
+    public class CD_Proveedor
     {
-        public List<Cliente> Listar()
+        public List<Proveedor> Listar()
         {
-            List<Cliente> listaClientes = new List<Cliente>();
+            List<Proveedor> listaProveedores = new List<Proveedor>();
 
             using (SqlConnection conn = new SqlConnection(Conexion.cadena))
             {
                 try
-                {
-                    //string query = "select u.id, u.documento, u.nombre_completo, u.correo, u.clave, u.estado, r.id as rolId, r.descripcion as rolDescripcion from Cliente u inner join rol r on r.id = u.rol_id;";
+                {                   
                     StringBuilder sbquery = new StringBuilder();
-                    sbquery.AppendLine("P_LISTAR_CLIENTE");                    
+                    sbquery.AppendLine("P_LISTAR_PROVEEDOR");
 
                     SqlCommand scmd = new SqlCommand(sbquery.ToString(), conn);
 
@@ -31,15 +32,14 @@ namespace CapaDatos
                     {
                         while (dr.Read())
                         {
-                            listaClientes.Add(new Cliente()
+                            listaProveedores.Add(new Proveedor()
                             {
                                 Id = Convert.ToInt32(dr["Id"]),
                                 Documento = dr["Documento"].ToString(),
-                                NombreCompleto = dr["Nombre"].ToString(),
+                                RazonSocial = dr["RazonSocial"].ToString(),
                                 Correo = dr["Correo"].ToString(),
                                 Telefono = dr["Telefono"].ToString(),
-                                Estado = Convert.ToBoolean(dr["Estado"]),
-                                //oRol = new Rol() { id = Convert.ToInt32(dr["rolId"]), descripcion = dr["rolDescripcion"].ToString() }
+                                Estado = Convert.ToBoolean(dr["Estado"])                                
                             });
                         }
                     }
@@ -47,30 +47,30 @@ namespace CapaDatos
                 catch (Exception ex)
                 {
                     //Console.WriteLine(ex.Message);
-                    listaClientes = new List<Cliente>();
+                    listaProveedores = new List<Proveedor>();
                 }
 
-                return listaClientes;
+                return listaProveedores;
             }
         }
 
 
-        public int Registrar(Cliente objCliente, out string Mensaje)
+        public int Registrar(Proveedor objProveedor, out string Mensaje)
         {
-            // variable para guardar el ID del cliente generado
-            int idClienteGenerado = 0;
+            // variable para guardar el ID del Proveedor generado
+            int idProveedorGenerado = 0;
             Mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(Conexion.cadena))
                 {
-                    SqlCommand sqlCmd = new SqlCommand("P_REGISTRAR_CLIENTE", conn);
-                    sqlCmd.Parameters.AddWithValue("Documento", objCliente.Documento);
-                    sqlCmd.Parameters.AddWithValue("NombreC", objCliente.NombreCompleto);
-                    sqlCmd.Parameters.AddWithValue("Correo", objCliente.Correo);
-                    sqlCmd.Parameters.AddWithValue("Telefono", objCliente.Telefono);
-                    sqlCmd.Parameters.AddWithValue("Estado", objCliente.Estado);
+                    SqlCommand sqlCmd = new SqlCommand("P_REGISTRAR_PROVEEDOR", conn);
+                    sqlCmd.Parameters.AddWithValue("Documento", objProveedor.Documento);
+                    sqlCmd.Parameters.AddWithValue("RazonSocial", objProveedor.RazonSocial);
+                    sqlCmd.Parameters.AddWithValue("Correo", objProveedor.Correo);
+                    sqlCmd.Parameters.AddWithValue("Telefono", objProveedor.Telefono);
+                    sqlCmd.Parameters.AddWithValue("Estado", objProveedor.Estado);
                     sqlCmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlCmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     sqlCmd.CommandType = CommandType.StoredProcedure;
@@ -78,21 +78,21 @@ namespace CapaDatos
                     conn.Open();
                     sqlCmd.ExecuteNonQuery();
 
-                    idClienteGenerado = Convert.ToInt32(sqlCmd.Parameters["Resultado"].Value);
+                    idProveedorGenerado = Convert.ToInt32(sqlCmd.Parameters["Resultado"].Value);
                     Mensaje = sqlCmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                idClienteGenerado = 0;
+                idProveedorGenerado = 0;
                 Mensaje = ex.Message;
             }
 
-            return idClienteGenerado;
+            return idProveedorGenerado;
         }
 
 
-        public bool Editar(Cliente objCliente, out string Mensaje)
+        public bool Editar(Proveedor objProveedor, out string Mensaje)
         {
             // "respuesta" para guardar el resultado (1) si se realizo o (0) si fallo
             bool respuesta = false;
@@ -102,14 +102,13 @@ namespace CapaDatos
             {
                 using (SqlConnection conn = new SqlConnection(Conexion.cadena))
                 {
-                    SqlCommand sqlCmd = new SqlCommand("P_EDITAR_CLIENTE", conn);
-                    sqlCmd.Parameters.AddWithValue("Id", objCliente.Id);
-                    sqlCmd.Parameters.AddWithValue("Documento", objCliente.Documento);
-                    sqlCmd.Parameters.AddWithValue("NombreCompleto", objCliente.NombreCompleto);
-                    sqlCmd.Parameters.AddWithValue("Correo", objCliente.Correo);
-                    sqlCmd.Parameters.AddWithValue("Telefono", objCliente.Telefono);
-                    //sqlCmd.Parameters.AddWithValue("rolId", objCliente.oRol.id);
-                    sqlCmd.Parameters.AddWithValue("Estado", objCliente.Estado);
+                    SqlCommand sqlCmd = new SqlCommand("P_EDITAR_PROVEEDOR", conn);
+                    sqlCmd.Parameters.AddWithValue("Id", objProveedor.Id);
+                    sqlCmd.Parameters.AddWithValue("Documento", objProveedor.Documento);
+                    sqlCmd.Parameters.AddWithValue("RazonSocial", objProveedor.RazonSocial);
+                    sqlCmd.Parameters.AddWithValue("Correo", objProveedor.Correo);
+                    sqlCmd.Parameters.AddWithValue("Telefono", objProveedor.Telefono);
+                    sqlCmd.Parameters.AddWithValue("Estado", objProveedor.Estado);
                     sqlCmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlCmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     sqlCmd.CommandType = CommandType.StoredProcedure;
@@ -131,7 +130,7 @@ namespace CapaDatos
         }
 
 
-        public bool Eliminar(Cliente objCliente, out string Mensaje)
+        public bool Eliminar(Proveedor objProveedor, out string Mensaje)
         {
             bool respuesta = false;
             Mensaje = string.Empty;
@@ -142,8 +141,8 @@ namespace CapaDatos
                 {
 
 
-                    SqlCommand sqlCmd = new SqlCommand("P_ELIMINAR_CLIENTE", conn);
-                    sqlCmd.Parameters.AddWithValue("Id", objCliente.Id);
+                    SqlCommand sqlCmd = new SqlCommand("P_ELIMINAR_PROVEEDOR", conn);
+                    sqlCmd.Parameters.AddWithValue("Id", objProveedor.Id);
 
                     sqlCmd.Parameters.Add("Respuesta", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlCmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;

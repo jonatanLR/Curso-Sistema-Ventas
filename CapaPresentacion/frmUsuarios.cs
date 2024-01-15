@@ -15,8 +15,6 @@ namespace CapaPresentacion
             InitializeComponent();
         }
 
-        
-
         private void frmUsuarios_Load(object sender, EventArgs e)
         {
             // Agreaga los item al comboBox Estado mendiante la clase OpcionCombo
