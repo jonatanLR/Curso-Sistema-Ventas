@@ -31,7 +31,7 @@ namespace CapaPresentacion
             // se captura y se capturan las columnas del DataGridView
             foreach (DataGridViewColumn dgvColumn in dgvProveedores.Columns)
             {
-                // se valida que la columna se visible que sea diferente de "btnSeleccionar"
+                // se valida que la columna se visible y que sea diferente de "btnSeleccionar"
                 // osea la primera columna que contiene el boton para seleccionar la fila (row)
                 if (dgvColumn.Visible == true && dgvColumn.Name != "btnSeleccionar")
                 {
