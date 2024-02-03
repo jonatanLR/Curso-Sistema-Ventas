@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CapaEntidad
 {
@@ -16,6 +12,9 @@ namespace CapaEntidad
         public decimal montoTotal { get; set; }
         public string fechaRegistro { get; set; }
 
-        public Categoria oUsuario { get; set; }
+        public Usuario oUsuario { get; set; }
+        public Cliente oCliente { get; set; }
+
+        public List<Detalle_Venta> oDetalle_Venta { get; set; }
     }
 }

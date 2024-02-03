@@ -1,16 +1,10 @@
 ﻿
+using CapaEntidad;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Data;
 using System.Data.SqlClient;
-using CapaEntidad;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Xml.Linq;
+using System.Text;
 
 namespace CapaDatos
 {
